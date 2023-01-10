@@ -1,0 +1,36 @@
+
+	body {
+		background-image: url(bg.jpg);
+		background-repeat: repeat;
+		background-color: #000;
+	}
+	.container {
+		border: 10px solid #FFF;
+		width: 604px;
+		margin-left: auto;
+		margin-right: auto
+	}
+	.container table {
+		background-color: #FFF;
+	}
+	* {
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	.tab {
+		background-color: #3e3e3e;
+		color: #FFF;
+		padding: 5px 15px 5px 15px;
+		cursor: pointer;
+	}
+	.tab:hover, .selected {
+		background-color: #0a9cb3;
+		color: #000;
+	}
+	.tabContainer {
+		border: 2px solid #333;
+		background-color: #FFF;
+	}
+	#message {
+		color: red;
+		padding: 10px 10px 0px 10px;
+	}

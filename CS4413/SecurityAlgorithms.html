@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+     <title>Security Algorithms</title>
+     
+	<link href="styles.css" type="text/css" rel="stylesheet" />
+     <script src="jquery-1.4.4.min.js" type="text/javascript"></script>
+     <script src="common.js" type="text/javascript"></script>
+     <script src="rsa.js" type="text/javascript"></script>
+     <script src="eg.js" type="text/javascript"></script>
+     <script src="dh.js" type="text/javascript"></script>
+</head>
+<body>
+	<br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <div class="container">
+          <table width="600" align="center" cellpadding="" cellspacing="0" border="0">
+               <tr>
+                    <td id="rsa" class="tab selected" onclick="showTab(this);">RSA</td>
+                    <td>&nbsp;</td>
+                    <td id="eg" class="tab" onclick="showTab(this);">ElGamal</td>
+                    <td>&nbsp;</td>
+                    <td id="dh" class="tab" onclick="showTab(this);" nowrap="nowrap">Diffie-Hellman</td>
+               </tr>
+               <tr>
+                    <td colspan="5">
+                         <div id="rsaContainer" class="tabContainer">
+                              <table width="600" cellspacing="2" cellpadding="3">
+                                   <tr>
+                                        <td align="center" style="font-weight: bold">RSA Encryption/Decryption</td>
+                                   </tr>
+                                   <tr>
+                                        <td>1. Generate primes p and q <input type="button" value="Gen" onclick="rsaGeneratePQ()" /> (1000 < p, q < 5000)</td>
+                                   </tr>
+                                   <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p = <input type="text" id="rsaP" readonly="readonly" style="width: 530px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; q = <input type="text" id="rsaQ" readonly="readonly" style="width: 530px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>2. Compute n=pq <input type="button" value="Com" onclick="rsaComputeN()" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n = <input type="text" id="rsaN" readonly="readonly" style="width: 532px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>3. Set a public key e &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e = <input type="text" id="rsaE" style="width: 386px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>4. Calculate the private key d <input type="button" value="Cal" onclick="rsaComputeD();" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d = <input type="text" id="rsaD" readonly="readonly" style="width: 530px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>5. Inpute a message m &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m = <input type="text" id="rsaM" style="width: 357px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>6. Encrypt c=m<sup>e</sup> mod n <input type="button" value="Enc" onclick="rsaEncrypt();" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = <input type="text" id="rsaC" readonly="readonly" style="width: 357px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>7. Decrypt m=c<sup>d</sup> mod n <input type="button" value="Dec" onclick="rsaDecrypt();" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m = <input type="text" id="rsaMD" readonly="readonly" style="width: 355px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td align="center"><br /><input type="button" value= "Clear" onclick="clearTab('rsaContainer');" /></td>
+                                   </tr>
+                              </table>
+                         </div>
+                         <div id="egContainer" class="tabContainer" style="display: none">
+                              <table width="600" cellspacing="2" cellpadding="3">
+                                   <tr>
+                                        <td align="center" style="font-weight: bold">ElGamal Encryption/Decryption</td>
+                                   </tr>
+                                   <tr>
+                                        <td>0. Given a large prime p=<script>document.write(egP);</script>, a primary root g=<script>document.write(egG);</script></td>
+                                   </tr>
+                                   <tr>
+                                        <td>1. Choose a private key x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = <input type="text" id="egX" style="width: 360px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>2. Compute the corresponding public key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y=g<sup>x</sup> mod p <input type="button" value="Com" onclick="egComputeY()" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y = <input type="text" id="egY" readonly="readonly" style="width: 530px"/></td>
+                                   </tr>
+                                   <tr>
+                                        <td>3. Input a message m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m = <input type="text" id="egM" style="width: 380px"/></td>
+                                   </tr>
+                                   <tr>
+                                        <td>4. Encrypt</td>
+                                   </tr>
+                                   <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.1 Choose a random number r &nbsp; r = <input type="text" id="egR" style="width: 305px"/></td>
+                                   </tr>
+                                   <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.2 Compute c1=g<sup>r</sup> mod p &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Com" onclick="egComputeC1()" /> &nbsp; c1 = <input type="text" id="egC1" readonly="readonly" style="width: 258px"/></td>
+                                   </tr>
+                                   <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.3 Compute c2=m*y<sup>r</sup> mod p <input type="button" value="Com" onclick="egComputeC2()" /> &nbsp; c2 = <input type="text" id="egC2" readonly="readonly" style="width: 257px"/></td>
+                                   </tr>
+                                   <tr>
+                                        <td>5. Decrypt C=(c1,c2)</td>
+                                   </tr>
+                                   <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m=c2/(c1)<sup>x</sup> mod p &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Dec" onclick="egDecryptM()" /> &nbsp; m = <input type="text" id="egDecryptM" readonly="readonly" style="width: 266px"/></td>
+                                   </tr>
+                                   <tr>
+                                        <td align="center"><br /><input type="button" value= "Clear" onclick="clearTab('egContainer');" /></td>
+                                   </tr>
+                              </table>
+                         </div>
+                         <div id="dhContainer" class="tabContainer" style="display: none">
+                              <table width="600" cellspacing="2" cellpadding="3">
+                                   <tr>
+                                        <td align="center" style="font-weight: bold">Diffie-Hellman Key Exchange</td>
+                                   </tr>
+                                   <tr>
+                                        <td>0. Given a large prime p=65537, a primary root g=3&nbsp;</td>
+                                   </tr>
+                                   <tr>
+                                        <td>1. Chose a random number x</td>
+                                   </tr>
+                                   <tr>
+                                        <td style="padding-left: 70px"> x = <input type="text" id="dhX" style= "width: 480px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>2. Compute X = g <sup>x</sup> mod p&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Com" onclick="dhComputeX()" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td style="padding-left: 70px"> X = <input type="text" id="dhCX" readonly="readonly" style= "width: 480px" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td>3. Chose a random number y</td>
+                                   </tr>
+                                   <tr>
+                                        <td style="padding-left: 70px"> y = <input type="text" id="dhY" style= "width: 480px"/></td>
+                                   </tr>
+                                   <tr>
+                                        <td>4. Compute Y = g <sup>y</sup> mod p&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Com" onclick="dhComputeY()" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td style="padding-left: 70px"> Y = <input type="text" id="dhCY" readonly="readonly" style= "width: 480px"/></td>
+                                   </tr>
+                                   <tr>
+                                        <td>5. Calculate the session key K = g <sup>xy</sup> mod p </td>
+                                   </tr>
+                                   <tr>
+                                        <td>K = Y<sup>x</sup> mod p = <input type="text" id="dhKY" readonly="readonly" style= "width: 110px"/> <input type="button" value="Cal" onclick="dhComputeKY()" /> &nbsp;&nbsp;&nbsp;&nbsp;K = X<sup>y</sup> mod p = <input type="text" id="dhKX" readonly="readonly" style="width: 110px"/> <input type="button" value="Cal" onclick="dhComputeKX()" /></td>
+                                   </tr>
+                                   <tr>
+                                        <td align="center"><br /><input type="button" value= "Clear" onclick="clearTab('dhContainer');" /></td>
+                                   </tr>
+                              </table>
+                         </div>
+                    </td>
+               </tr>
+               <tr>
+                    <td colspan="5" id="message"></td>
+               </tr>
+          </table>
+	</div>
+</body>
+</html>
